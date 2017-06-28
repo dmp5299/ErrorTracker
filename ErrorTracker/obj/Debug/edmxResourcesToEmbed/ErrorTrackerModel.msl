@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ErrorTrackerModelStoreContainer" CdmEntityContainer="ErrorTrackerEntities1">
+    <EntitySetMapping Name="Books">
+      <EntityTypeMapping TypeName="ErrorTrackerModel.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+          <ScalarProperty Name="ATA" ColumnName="ATA" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="TotalPages" ColumnName="TotalPages" />
+          <ScalarProperty Name="ChangePages" ColumnName="ChangePages" />
+          <ScalarProperty Name="P2p" ColumnName="P2p" />
+          <ScalarProperty Name="RcmGroup" ColumnName="RcmGroup" />
+          <ScalarProperty Name="RcmQa1" ColumnName="RcmQa1" />
+          <ScalarProperty Name="UtasGroup" ColumnName="UtasGroup" />
+          <ScalarProperty Name="UtasQa1" ColumnName="UtasQa1" />
+          <ScalarProperty Name="UtasIhr" ColumnName="UtasIhr" />
+          <ScalarProperty Name="Validate" ColumnName="Validate" />
+          <ScalarProperty Name="RcmGroup2" ColumnName="RcmGroup2" />
+          <ScalarProperty Name="RcmQa2" ColumnName="RcmQa2" />
+          <ScalarProperty Name="UtasQa2" ColumnName="UtasQa2" />
+          <ScalarProperty Name="RcmDelivery" ColumnName="RcmDelivery" />
+          <ScalarProperty Name="Delivered" ColumnName="Delivered" />
+          <ScalarProperty Name="stage" ColumnName="stage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="ErrorTrackerModel.Comment">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="ItemNumber" ColumnName="ItemNumber" />
+          <ScalarProperty Name="Page" ColumnName="Page" />
+          <ScalarProperty Name="Comment1" ColumnName="Comment" />
+          <ScalarProperty Name="ValidStatus" ColumnName="ValidStatus" />
+          <ScalarProperty Name="ClassCode" ColumnName="ClassCode" />
+          <ScalarProperty Name="Stage" ColumnName="Stage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserProfiles">
+      <EntityTypeMapping TypeName="ErrorTrackerModel.UserProfile">
+        <MappingFragment StoreEntitySet="UserProfile">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ErrorTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PartNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ATA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Author" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TotalPages" Type="Int32" />
+    <Property Name="ChangePages" Type="Int32" />
+    <Property Name="P2p" Type="DateTime" Precision="0" />
+    <Property Name="RcmGroup" Type="DateTime" Precision="0" />
+    <Property Name="RcmQa1" Type="DateTime" Precision="0" />
+    <Property Name="UtasGroup" Type="DateTime" Precision="0" />
+    <Property Name="UtasQa1" Type="DateTime" Precision="0" />
+    <Property Name="UtasIhr" Type="DateTime" Precision="0" />
+    <Property Name="Validate" Type="DateTime" Precision="0" />
+    <Property Name="RcmGroup2" Type="DateTime" Precision="0" />
+    <Property Name="RcmQa2" Type="DateTime" Precision="0" />
+    <Property Name="UtasQa2" Type="DateTime" Precision="0" />
+    <Property Name="RcmDelivery" Type="DateTime" Precision="0" />
+    <Property Name="Delivered" Type="Boolean" />
+    <Property Name="stage" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="UserProfile" Relationship="Self.FK__Book__UserId__1273C1CD" FromRole="Book" ToRole="UserProfile" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__BookId__1920BF5C" FromRole="Book" ToRole="Comments" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Name="BookId" Type="Int32" />
+    <Property Name="ItemNumber" Type="Int32" Nullable="false" />
+    <Property Name="Page" Type="Int32" Nullable="false" />
+    <Property Name="Comment1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ValidStatus" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ClassCode" Type="Int32" Nullable="false" />
+    <Property Name="Stage" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Book" Relationship="Self.FK__Comments__BookId__1920BF5C" FromRole="Comments" ToRole="Book" />
+    <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Books" Relationship="Self.FK__Book__UserId__1273C1CD" FromRole="UserProfile" ToRole="Book" />
+  </EntityType>
+  <Association Name="FK__Book__UserId__1273C1CD">
+    <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserProfile">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comments__BookId__1920BF5C">
+    <End Role="Book" Type="Self.Book" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ErrorTrackerEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Books" EntityType="Self.Book" />
+    <EntitySet Name="Comments" EntityType="Self.Comment" />
+    <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+    <AssociationSet Name="FK__Book__UserId__1273C1CD" Association="Self.FK__Book__UserId__1273C1CD">
+      <End Role="UserProfile" EntitySet="UserProfiles" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comments__BookId__1920BF5C" Association="Self.FK__Comments__BookId__1920BF5C">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,101 @@
+﻿@using System.Windows;
+@using System.Web.UI.WebControls;
+@model ErrorTracker.Book
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+@Html.Partial("_Header")
+
+            <div style="width:50%;margin: 0 auto;background-color:white;">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary()
+                    <div style="overflow-y: scroll; height:600px;padding:5px" class="well">
+                        <div style="float:left;width:48%;">
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="Title">Title:</label>
+                                @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @id = "Title" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="PartNumber">PartNumber:</label>
+                                @Html.TextBoxFor(model => model.PartNumber, new { @class = "form-control", @id = "PartNumber" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="ATA">ATA:</label>
+                                @Html.TextBoxFor(model => model.ATA, new { @class = "form-control", @id = "ATA" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="Author">Author:</label>
+                                @Html.TextBoxFor(model => model.Author, new { @class = "form-control", @id = "Author" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="TotalPages">TotalPages:</label>
+                                @Html.TextBoxFor(model => model.TotalPages, new { @class = "form-control", @id = "TotalPages" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="ChangePages">ChangePages:</label>
+                                @Html.TextBoxFor(model => model.ChangePages, new { @class = "form-control", @id = "ChangePages" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="RcmQa2">RcmQa2 Due Date:</label>
+                                @Html.TextBoxFor(model => model.RcmQa2, new { @class = "form-control datepicker", @id = "RcmQa2" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="UtasQa2">UtasQa2 Due Date:</label>
+                                @Html.TextBoxFor(model => model.UtasQa2, new { @class = "form-control datepicker", @id = "UtasQa2" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="RcmDelivery">RcmDelivery Due Date:</label>
+                                @Html.TextBoxFor(model => model.RcmDelivery, new { @class = "form-control datepicker", @id = "RcmDelivery" })
+                            </div>
+                        </div>
+                        <div style="float:right;width:48%">
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="P2p">P2p Due Date:</label>
+                                @Html.TextBoxFor(model => model.P2p, new { @class = "form-control datepicker", @id = "P2p" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="RcmGroup">RcmGroup Due Date:</label>
+                                @Html.TextBoxFor(model => model.RcmGroup, new { @class = "form-control datepicker", @id = "RcmGroup" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="RcmQa1">RcmQa1 Due Date:</label>
+                                @Html.TextBoxFor(model => model.RcmQa1, new { @class = "form-control datepicker", @id = "RcmQa1" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="UtasGroup">UtasGroup Due Date:</label>
+                                @Html.TextBoxFor(model => model.UtasGroup, new { @class = "form-control datepicker", @id = "UtasGroup" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="UtasQa1">UtasQa1 Due Date:</label>
+                                @Html.TextBoxFor(model => model.UtasQa1, new { @class = "form-control datepicker", @id = "UtasQa1" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="UtasIhr">UtasIhr Due Date:</label>
+                                @Html.TextBoxFor(model => model.UtasIhr, new { @class = "form-control datepicker", @id = "UtasIhr" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="Validate">Validate Due Date:</label>
+                                @Html.TextBoxFor(model => model.Validate, new { @class = "form-control datepicker", @id = "Validate" })
+                            </div>
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label for="RcmGroup2">RcmGroup2 Due Date:</label>
+                                @Html.TextBoxFor(model => model.RcmGroup2, new { @class = "form-control datepicker", @id = "RcmGroup2" })
+                            </div>
+                        </div>
+                    </div>
+                    <br style="clear:both;display: block; position: relative;" />
+                    <div style="padding-bottom:.2in;text-align:center">
+                        <input class="btn btn-primary" type="submit" style="font-weight:bold" value="Submit" />
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

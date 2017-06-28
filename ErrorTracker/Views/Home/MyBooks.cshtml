@@ -1,0 +1,278 @@
+﻿@using System.Web.UI.WebControls;
+@model ErrorTracker.Book
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+@Html.Partial("_Header")
+            <div class="form-group" id="Books" style="width:30%">
+                <label style="text-align:left;width:70%;display:block">Select Book</label>
+                @Html.DropDownListFor(model => model.Title, new SelectList(ViewBag.Books, "Value", "Text", "Select book"), new { @style = "width:100%;", onchange = "bookChange(this)", @id = "books", @class = "form-control" })
+            </div>
+            <div id="tabs">
+                <ul>
+                    <li id="grid1" class="active"><a href="#grid" >Grid</a></li>
+                    <li><a href="#charts" >Stage</a></li>
+                    <li><a href="#charts1" >Book</a></li>
+                </ul>
+                <div id="grid" style="padding:10px;width:100%">
+                    <table id="jqGrid"></table>
+                    <div id="jqControls"></div>
+                    <div style="text-align:center;padding-top:10px">
+                        <button type="button" id="lastStage" class="btn btn-primary btn-arrow-left">Last Stage</button>
+                        <button type="button" id="nextStage" class="btn btn-primary btn-arrow-right">Next Stage</button>
+                    </div>
+                </div>
+                <div id="charts">
+                    <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                </div>
+                <div id="charts1">
+                    <div id="container1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">dave</div>
+                </div>
+            </div>
+        </div>
+        <script>
+            
+                function loadGrid(id, title, stage) {
+                    var pageWidth = $("#grid").parent().width()-15;
+                    $('#jqGrid').jqGrid('GridUnload');
+                    $("#jqGrid").jqGrid({
+                        url: "/Home/GetComments",
+                        toppager:true,
+                        datatype: 'json',
+                        loadonce: true,
+                        postData: { id1: id },
+                        mtype: 'POST',
+                        colNames: ['CommentId', 'BookId', 'Item No.', 'Page', 'Comment', 'V/I', 'Class. Code', 'Stage'],
+                        colModel: [
+                            { key: true, hidden: true, name: 'CommentId', index: 'CommentId', editable: true, width:0 },
+                            { key: false, hidden: true, name: 'BookId', index: 'BookId', editable: true, width: 0 },
+                            { key: false, search: false, name: 'ItemNumber', index: 'ItemNumber', editable: true, width: (pageWidth * (10 / 100)) },
+                            { key: false, search: false, name: 'Page', index: 'Page', editable: true, width: (pageWidth * (10 / 100)) },
+                            { key: false, search: false, name: 'Comment1', index: 'Comment1', editable: true, width: (pageWidth * (50 / 100)) },
+                            {
+                                key: false, search: true, name: 'ValidStatus', index: 'ValidStatus', editable: true, edittype: 'select',formatter:'select', editoptions: { value: { 'V': 'V', 'I': 'I', 'OOS': 'OOS' } },
+                                searchoptions: { attr: { style: "width:" + (pageWidth * (10 / 100) - 15) + "px;margin-top:1px;margin-bottom:1px;" }, value: ":All;V:V;I:I;OOS:OOS", sopt: ['eq'] }, stype: 'select', width: (pageWidth * (10 / 100))
+                            },
+                            { key: false, search: false, name: 'ClassCode', index: 'ClassCode', editable: true, width: (pageWidth * (10 / 100)) },
+                            {
+                                key: false, search: false, name: 'Stage', index: 'Stage', editable: true, width: (pageWidth * (10 / 100)), edittype: 'select',
+                                editoptions: { value: { 'P2p': 'P2p', 'RcmGroup': 'RcmGroup', 'RcmQa1': 'RcmQa1',
+                                    'UtasGroup': 'UtasGroup','UtasQa1': 'UtasQa1','UtasIhr': 'UtasIhr',
+                                    'Validate': 'Validate','RcmGroup2': 'RcmGroup2','RcmQa2': 'RcmQa2',
+                                    'UtasQa2': 'UtasQa2','RcmDelivery': 'RcmDelivery','Delivered': 'Delivered'} }
+                            }],
+                        rowNum: 10,
+                        rowList: [10, 20, 30, 40, 50],
+                        height: '100%',
+                        width: '100%',
+                        viewrecords: true,
+                        caption: title + ' ' + stage,
+                        emptyrecords: 'No comments for this book yet',
+                        jsonReader: {
+                            root: "rows",
+                            page: "page",
+                            total: "total",
+                            records: "records",
+                            repeatitems: false
+                        },
+                        autowidth: true,
+                        shrinkToFit: true,
+                        multiselect: false,
+                    });
+                    $("#jqGrid").jqGrid("navGrid", "#jqGrid_toppager", { edit: true, add:true, del: true, search: false, refresh:true},
+                    {
+                        url: "/Home/EditComment",
+                        closeOnEscape: true,
+                        closeOnExit: true,
+                        recreateForm: true,
+                        afterComplete: function (response) {
+                            if (response.responseText) {
+                                alert(response.responseText);
+                            }
+
+                        }
+                    },
+                    {
+                        url: "/Home/AddComment",
+                        closeOnEscape: true,
+                        closeOnExit: true,
+                        recreateForm: true,
+                        afterComplete: function (response) {
+                            if (response.responseText) {
+                                alert(response.responseText);
+                            }
+
+                        }
+                    },
+                    {
+                        zIndex:100,
+                        url: "/Home/DelComment",
+                        closeOnEscape: true,
+                        closeOnExit: true,
+                        recreateForm: true,
+                        afterComplete: function (response) {
+                            if (response.responseText) {
+                                alert(response.responseText);
+                            }
+
+                        }
+                    }
+                    );
+                    $('#jqGrid').jqGrid('filterToolbar', {
+                        stringResult: true, searchOnEnter: true, defaultSearch: "eq"
+                        }
+                    );                    // add custom button to export the data to excel
+                    jQuery("#jqGrid").jqGrid('navButtonAdd', '#jqGrid_toppager', {
+                        caption: "",
+                        onClickButton: function () {
+                            jQuery("#jqGrid").jqGrid('excelExport',{url:'/Home/ExcelExport'});
+                        }
+                    });
+                }
+                $(window).bind("resize", function () {
+                    $("#jqGrid").jqGrid("setGridWidth", $("#jqGrid").closest("#grid").width());
+                }).triggerHandler("resize");
+                $('#lastStage').click(function () {
+                    $.ajax({
+                        url: "/Home/ChangeStage", data: { id: $("#books").val(), nextOrLast: "last" }, success: function (stage) {
+                            loadGrid($("#books").val(), $("#books option:selected").text(), stage);
+                        }
+                    });
+                });
+
+                $('#nextStage').click(function () {
+                    $.ajax({
+                        url: "/Home/ChangeStage", data: { id: $("#books").val(), nextOrLast: "next" }, success: function (stage) {
+                            loadGrid($("#books").val(), $("#books option:selected").text(), stage);
+                        }
+                    });
+                });
+                $('#tabs, #charts').tabs({
+                    select: function (event, ui) {
+                        if ($("#books").val() != 0) {
+                            $.ajax({
+                                type: 'get',
+                                dataType: 'json',
+                                url: "/Home/GetChartData",
+                                data: {}, success: function (data) {
+                                    buildChart(data);
+                                }
+                            });
+                        }
+                        
+                    }
+                });
+
+                function bookChange(title) {
+                    $.ajax({
+                        url: "/Home/GetStage", data: { id: title.options[title.selectedIndex].value }, success: function (stage) {
+                            loadGrid(title.options[title.selectedIndex].value, title.options[title.selectedIndex].text, stage);
+                        }
+                    });
+                    if ($("ul#navtabs li.active").index() == 1) {
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: "/Home/GetChartData",
+                            data: {}, success: function (data) {
+                                buildChart(data);
+                            }
+                        });
+                    }
+                    
+                }
+                function buildChart(data) {
+                    // Build the chart
+                    Highcharts.chart('container', {
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                        title: {
+                            text: " Comment Distribution"
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                            name: 'Comments',
+                            colorByPoint: true,
+                            data: [{
+                                name: 'Valid',
+                                y: parseInt(data['valid'])
+                            }, {
+                                name: 'Invalid',
+                                y:  parseInt(data['invalid'])
+                },
+                {
+                                name: 'OOS',
+                                y:  parseInt(data['OOS'])
+                            }]
+                        }]
+                    });
+                };
+                function buildBookChart(data) {
+                    // Build the chart
+                    Highcharts.chart('container1', {
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                        title: {
+                            text: " Comment Distribution"
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                            name: 'Comments',
+                            colorByPoint: true,
+                            data: [{
+                                name: 'Valid',
+                                y: parseInt(data['valid'])
+                            }, {
+                                name: 'Invalid',
+                                y: parseInt(data['invalid'])
+                            },
+                {
+                    name: 'OOS',
+                    y: parseInt(data['OOS'])
+                }]
+                        }]
+                    });
+                };
+
+        </script>
+    </div>
+</body>
+</html>
+
+

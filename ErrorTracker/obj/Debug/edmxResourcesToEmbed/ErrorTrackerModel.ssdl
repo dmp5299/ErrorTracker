@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ErrorTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Title" Type="varchar" MaxLength="100" />
+    <Property Name="PartNumber" Type="varchar" MaxLength="50" />
+    <Property Name="ATA" Type="varchar" MaxLength="50" />
+    <Property Name="Author" Type="varchar" MaxLength="100" />
+    <Property Name="TotalPages" Type="int" />
+    <Property Name="ChangePages" Type="int" />
+    <Property Name="P2p" Type="date" />
+    <Property Name="RcmGroup" Type="date" />
+    <Property Name="RcmQa1" Type="date" />
+    <Property Name="UtasGroup" Type="date" />
+    <Property Name="UtasQa1" Type="date" />
+    <Property Name="UtasIhr" Type="date" />
+    <Property Name="Validate" Type="date" />
+    <Property Name="RcmGroup2" Type="date" />
+    <Property Name="RcmQa2" Type="date" />
+    <Property Name="UtasQa2" Type="date" />
+    <Property Name="RcmDelivery" Type="date" />
+    <Property Name="Delivered" Type="bit" />
+    <Property Name="stage" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookId" Type="int" />
+    <Property Name="ItemNumber" Type="int" Nullable="false" />
+    <Property Name="Page" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="ValidStatus" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="ClassCode" Type="int" Nullable="false" />
+    <Property Name="Stage" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Book__UserId__1273C1CD">
+    <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserProfile">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comments__BookId__1920BF5C">
+    <End Role="Book" Type="Self.Book" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ErrorTrackerModelStoreContainer">
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Book__UserId__1273C1CD" Association="Self.FK__Book__UserId__1273C1CD">
+      <End Role="UserProfile" EntitySet="UserProfile" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comments__BookId__1920BF5C" Association="Self.FK__Comments__BookId__1920BF5C">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
